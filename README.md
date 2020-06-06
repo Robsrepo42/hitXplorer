@@ -6,7 +6,7 @@ This is a project that was part of an assignment at the University of Applied Sc
 
 # The Task 
 Develop a shiny app that allows a user to explore your data interactively. 
-The shiny app should contain one or more plots, but it may also contain other elements, such as data or text. 
+The shiny app should contain one or more plots, but it may also contain other elements, such as data or text.
 Make deliberate decisions about both the content and the design of your shiny app. 
 While it may be technically possible to make any aspect of your app customizable, this might overwhelm the user, or it might lead to unfavorable visualizations (e.g. bar charts with 1000 bars). Therefore, whatever you do, consider the user experience. 
 Include also a Readme.md file in which you shortly summarise your project (data source, variable definition, data cleaning/transformation, purpose of your app, etc.) and explain technical aspects of your app (features that you used or things that you learned about shiny). 
@@ -30,6 +30,14 @@ We chose to go for weekly top 200 charts from Germany. This Data is available ba
 *And appends every new chart table to the one before together with that particular weeks date to create one large data set with more than 10 thousand observations*
 
 The resulting download function code can be found in this repo, but it didn't leave us with clean and tidy data. The reason for this being that the data comes with 5 variables (position, track, artist, streams, URL), but unfortunately none of these are unique.
+
+Some of the problems we ran into can be illustrated by the following examples:
+![Shawn Mendes](https://github.com/Robsrepo42/hitXplorer/blob/master/Screenshots/Shawn%20Mendes%20-%20Senorita.png)
+In this example it can be seen that the song ID changes for no apparent reason. One approach to eliminate these additional song IDs was to use the song's length as an additional identifier. In the case of Shawn Mendes it turned out that another one of this artists songs (If I Can't Have You) has exactly the same song length. The problem was eventually solved by querying the ISRC from spotify (see below).
+
+![Apache](https://github.com/Robsrepo42/hitXplorer/blob/master/Screenshots/Apache%20207.png)
+
+This example shows that a song with the same ISRC ID can actually have different lengths. It was not possible to clear up the difference between these two spotify IDs of the same song with a length difference of 933 miliseconds.
 
 The lack of a unique identifier gave us headaches and messy visuals zigzaging all over the place. We needed to query spotify's REST API via the R package "spotifyr", which is not available via CRAN anymore (but can be downloaded elsewhere, thank you Charlie!)
 
